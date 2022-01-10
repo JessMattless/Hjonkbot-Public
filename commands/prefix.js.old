@@ -1,0 +1,25 @@
+const Discord = require('discord.js');
+const { prefix, token } = require('../config.json');
+
+let changingPrefix = false;
+let newPrefix;
+
+
+module.exports = {
+    name: 'prefix',
+    description: "Change the bot's prefix",
+    execute(message, args) {
+        if (!args.length) {
+            if (!changingPrefix) return message.channel.send(`Use "!prefix <prefix>" to change the used prefix.`);
+            else if (changingPrefix) {
+                prefix = newPrefix;
+                return message.channel.send(`Changed prefix to ${newPrefix}`);
+            }
+        }
+        else {
+            let newPrefix = args[0];
+            changingPrefix = true;
+            return message.channel.send(`Are you sure? This will change the prefix from "${prefix}" to "${newPrefix}". Type "!prefix" again to confirm, ${message.author}`);
+        }
+    }
+}
